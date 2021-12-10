@@ -1,0 +1,19 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t hamid/react-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker run -e CI=true hamid/react-test yarn test
+
+after_success:
+  - docker build -t hamid/multi-client ./client
+  - docker build -t hamid/multi-nginx ./nginx
+  - docker build -t hamid/multi-server ./server
+  - docker build -t hamid/multi-worker ./worker
+  - echo "$$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push hamid/multi-client
+  - docker push hamid/multi-nginx
+  - docker push hamid/multi-server
+  - docker push hamid/multi-worker
