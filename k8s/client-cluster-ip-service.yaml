@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: client-cluster-ip-service
+
+spec:
+  type: ClusterIP # must be exact this
+  selector: # tell it to route traffic to what pods and we said to all pods with label of "component:web" as we defined inside
+    #of the "deployment" file
+    component: web
+  ports: # its like before but since here we do not have a nodePort because its not access from outside world
+    - port: 3000 # from inside cluster any body wants to connect use this port "we can change this port if we want"
+      targetPort: 3000 #its going to route traffic to this port on the target Pod which is "component:web" label pods

@@ -19,6 +19,7 @@ function App() {
             <Route exact path="/otherpage" component={OtherPage} />
           </Routes>
         </div>
+        <h1>Some Dummy Header</h1>
         <Fib />
       </div>
     </Router>
